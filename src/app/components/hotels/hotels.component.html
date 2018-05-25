@@ -1,0 +1,341 @@
+<div class="container" style="min-height: 500px;position: relative;">
+  <div class="row" style="margin-top: 10px">
+    <div class="col-sm-3">
+      <select class="form-control" (change)="onChange($event.target.value)">
+        <option selected value="default">Mặc định</option>
+        <option value="increase">Giá từ thấp tới cao</option>
+        <option value="decrease">Giá từ cao xuống thấp</option>
+      </select>
+    </div>
+    <div class="col-sm-3">
+      <select class="form-control" (change)="onChangeCity($event.target.value)">
+        <option selected value="default">Tỉnh/Thành</option>
+        <option *ngFor="let city of tinhthanh" value="{{city.id}}">{{city.tentp}}</option>
+      </select>
+    </div>
+    <div class="col-sm-3">
+      <select class="form-control" (change)="onChangeDistrict($event.target.value)" [disabled]="!isChooseCity">
+        <option selected value="default">Quận/Huyện</option>
+        <option *ngFor="let dis of district" value="{{dis.id}}">{{dis.tenquanhuyen}}</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+      <button routerLink="/manage/addnews" class="btn btn-primary btn-block">Thêm tin mới</button>
+    </div>
+  </div>
+  <div class="row" style="margin-top:20px;">
+    <div class="outer" style="text-align: center; width: 100%;" *ngIf="isEmpty">
+      <h1>Chưa có dữ liệu!</h1>
+    </div>
+    <div class="col-md-3 col-sm-3" style="margin-bottom: 20px;" *ngFor="let hotel of hotelList | paginate: { itemsPerPage: 8, currentPage: p }">
+      <img src="{{ hotel.link }}" style="height: 400px; width: 250px" class="img-thumbnail">
+      <h6 class="title" style="height: 35px; text-align: center; margin-top: 10px;">{{ hotel.phong.tieude }}</h6>
+      <div class="description">
+        <small>
+          <img src="assets/images/location.png" style="height: 20px; width: 20px"> {{ hotel.phong.diachi }}</small>
+        <br>
+        <small>
+          <img src="assets/images/dientich.png" style="height: 20px; width: 20px"> Diện tích: {{hotel.phong.dientich}}m2({{ hotel.phong.chieudai }}m X {{ hotel.phong.chieurong }}m)</small>
+      </div>
+      <div class="price">
+        <h6>Giá:
+          <strong>{{ hotel.phong.gia }}VND</strong>
+        </h6>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <button (click)="show($event)" name="{{hotel.phong.id}}" class="btn btn-primary btn-block">Chi tiết</button>
+        </div>
+        <div class="col-sm-6">
+          <button class="btn btn-danger btn-block" (click)="delete($event)" name="{{hotel.phong.id}}" data-target="#confirmdelete"
+            data-toggle="modal">Xóa</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" style="text-align:center;">
+  <div class="col-md-12">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
+<div (click)="onContainerClicked($event)" class="modal" tabindex="-1" [ngClass]="{'in': visibleAnimate}" [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 *ngIf="isDetail" class="modal-title">{{details.tieude}}</h4>
+        <button type="button" class="close" (click)="hide()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" href="#detail" role="tab" data-toggle="tab">Chi tiết</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#image" role="tab" data-toggle="tab">Hình ảnh</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#map" role="tab" data-toggle="tab">Bản đồ</a>
+          </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade show active" id="detail">
+            <div class="row" *ngIf="isDetail" style="height:450px; overflow-y: scroll;">
+              <div class="col-md-1"></div>
+              <div class="col-md-10">
+                <div class="row">
+                  <div class="col-sm-12 my-3">
+                    <div class="card card-body bg-light">
+                      <strong>Thông tin chi tiết</strong>
+                      <table class="table">
+                        <tbody>
+                          <tr>
+                            <td>Loại nhà ở</td>
+                            <td>{{tintuc}}</td>
+                          </tr>
+                          <tr>
+                            <td>Diện tích</td>
+                            <td>{{details.dientich}}m2({{ details.chieudai }}m X {{ details.chieurong }}m)</td>
+                          </tr>
+                          <tr>
+                            <td>Giá thuê</td>
+                            <td>{{details.gia}} vnd/tháng</td>
+                          </tr>
+                          <tr>
+                            <td>Đặt cọc</td>
+                            <td>{{details.tiencoc}} {{details.donvicoc}}</td>
+                          </tr>
+                          <tr>
+                            <td>Tiền điện</td>
+                            <td>{{details.giadien}} {{details.donvidien}}</td>
+                          </tr>
+                          <tr>
+                            <td>Tiền nước</td>
+                            <td>{{details.gianuoc}} {{details.deonvinuoc}}</td>
+                          </tr>
+                          <tr>
+                            <td>Giờ giấc</td>
+                            <td>{{giogiac}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 my-2">
+                    <div class="card card-body bg-light">
+                      <strong>Thông tin liên hệ</strong>
+                      <table *ngIf="isUser" class="table">
+                        <tbody>
+                          <tr>
+                            <td>Họ tên</td>
+                            <td>{{user.hoten}}</td>
+                          </tr>
+                          <tr>
+                            <td>Số điện thoại</td>
+                            <td>{{user.sodt}}</td>
+                          </tr>
+                          <tr>
+                            <td>Facebook</td>
+                            <td>
+                              <a href="{{user.facebook}}" target="_blank">Xem</a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Địa chỉ</td>
+                            <td>{{user.diachi}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 my-2">
+                    <div class="card card-body bg-light">
+                      <strong>Tiện ích và nội thất</strong>
+
+                      <div class="row" style="text-align: center; padding: 10px">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!wifi" src="assets/images/icons_wi_fi.png" alt="" style="height: 50px; width: 50px;">
+                          <img *ngIf="wifi" src="assets/images/icons_wi_fi_active.png" alt="" style="height: 50px; width: 50px;">
+                        </div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!gac" src="assets/images/icon_gac.png" alt="" style="height: 50px; width: 50px">
+                          <img *ngIf="gac" src="assets/images/icon_gac_active.png" alt="" style="height: 50px; width: 50px">
+                        </div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!toalet" src="assets/images/icon_toilet.png" alt="" style="height: 50px; width: 50px">
+                          <img *ngIf="toalet" src="assets/images/icon_toilet_active.png" alt="" style="height: 50px; width: 50px">
+                        </div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!phongtam" src="assets/images/icon_bathroom.png" alt="" style="height: 50px; width: 50px">
+                          <img *ngIf="phongtam" src="assets/images/icon_bathroom_active.png" alt="" style="height: 50px; width: 50px">
+                        </div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!giuong" src="assets/images/icon_giuong.png" alt="" style="height: 50px; width: 50px">
+                          <img *ngIf="giuong" src="assets/images/icon_giuong_active.png" alt="" style="height: 50px; width: 50px">
+                        </div>
+                        <div class="col-sm-1"></div>
+                      </div>
+
+                      <div class="row" style="text-align: center; padding: 10px">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!tivi" src="assets/images/icon_tv.png" alt="" style="height: 50px; width: 50px">
+                          <img *ngIf="tivi" src="assets/images/icon_tv_active.png" alt="" style="height: 50px; width: 50px">
+                        </div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!tulanh" src="assets/images/icon_tulanh.png" alt="" style="height: 50px; width: 50px">
+                          <img *ngIf="tulanh" src="assets/images/icon_tulanh_active.png" alt="" style="height: 50px; width: 50px">
+                        </div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!bepga" src="assets/images/icon_bepga.png" alt="" style="height: 50px; width: 50px">
+                          <img *ngIf="bepga" src="assets/images/icon_bepga_active.png" alt="" style="height: 50px; width: 50px">
+                        </div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!quat" src="assets/images/icon_quat.png" alt="" style="height: 50px; width: 50px">
+                          <img *ngIf="quat" src="assets/images/icon_quat_active.png" alt="" style="height: 50px; width: 50px">
+                        </div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!tudo" src="assets/images/icon_tu_quan_ao.png" alt="" style="height: 50px; width: 50px">
+                          <img *ngIf="tudo" src="assets/images/icon_tu_quan_ao_active.png" alt="" style="height: 50px; width: 50px">
+                        </div>
+                        <div class="col-sm-1"></div>
+                      </div>
+
+                      <div class="row" style="text-align: center; padding: 10px">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!dieuhoa" src="assets/images/icon_may_lanh.png" alt="" style="height: 50px; width: 50px">
+                          <img *ngIf="dieuhoa" src="assets/images/icon_may_lanh_active.png" alt="" style="height: 50px; width: 50px">
+                        </div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!bongden" src="assets/images/icon_bongden.png" alt="" style="height: 50px; width: 50px">
+                          <img *ngIf="bongden" src="assets/images/icon_bongden_active.png" alt="" style="height: 50px; width: 50px">
+                        </div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!baove" src="assets/images/icon_baove.png" alt="" style="height: 50px; width: 50px">
+                          <img *ngIf="baove" src="assets/images/icon_baove_active.png" alt="" style="height: 50px; width: 50px">
+                        </div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!camera" src="assets/images/icon_camera.png" alt="" style="height: 50px; width: 50px">
+                          <img *ngIf="camera" src="assets/images/icon_camera_active.png" alt="" style="height: 50px; width: 50px">
+                        </div>
+                        <div class="col-sm-2">
+                          <img *ngIf="!doxe" src="assets/images/icon_doxe.png" alt="" style="height: 50px; width: 50px">
+                          <img *ngIf="doxe" src="assets/images/icon_doxe_active.png" alt="" style="height: 50px; width: 50px">
+                        </div>
+                        <div class="col-sm-1"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 my-2">
+                    <div class="card card-body bg-light">
+                      <strong>Mô tả thêm</strong>
+                      <div style="margin-top: 10px; margin-left: 10px;">
+                        {{details.motathem}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 my-2">
+                    <div class="card card-body bg-light">
+                      <strong>Quản lý</strong>
+                      <table class="table">
+                        <tbody>
+                          <tr>
+                            <td>Số báo cáo vi phạm</td>
+                            <td>{{details.soreport}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-md-1"></div>
+            </div>
+          </div>
+          <!-- nội dung tab hình ảnh -->
+          <div role="tabpanel" class="tab-pane fade" id="image">
+            <ngb-carousel>
+              <ng-template ngbSlide *ngFor="let img of imagesUrl">
+                <div class="carousel-caption">
+                  <img src="{{img.link}}" alt="Random first slide" style="height: 400px; width: 350px">
+                </div>
+                <img src="https://vignette.wikia.nocookie.net/minecraftcreepypasta/images/3/3c/Solids-black.jpg/revision/latest/scale-to-width-down/640?cb=20161231184957"
+                  alt="Random first slide" style="height: 450px; width: 100%">
+              </ng-template>
+            </ngb-carousel>
+          </div>
+          <!-- nội dung map -->
+          <div role="tabpanel" class="tab-pane fade" id="map">
+            <div #gmap style="width:100%;height:450px"></div>
+          </div>
+        </div>
+        <!-- <angular-image-slider [images]="imagesUrl"></angular-image-slider> -->
+        <!-- <ngb-carousel>
+          <ng-template ngbSlide *ngFor="let img of imagesUrl">
+            <div class="carousel-caption">
+              <img src="{{img}}" alt="Random first slide" style="height: 350px; width: 350px">
+            </div>
+            <img src="https://vignette.wikia.nocookie.net/minecraftcreepypasta/images/3/3c/Solids-black.jpg/revision/latest/scale-to-width-down/640?cb=20161231184957" alt="Random first slide" style="height: 400px; width: 100%">
+          </ng-template>
+           <ng-template ngbSlide>
+            <img src="https://picsum.photos/900/500?image=2" alt="Random second slide">
+            <div class="carousel-caption">
+              <h3>Second slide label</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+          </ng-template>
+          <ng-template ngbSlide>
+            <img src="https://picsum.photos/900/500?image=3" alt="Random third slide">
+            <div class="carousel-caption">
+              <h3>Third slide label</h3>
+              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+            </div>
+          </ng-template> 
+        </ngb-carousel> -->
+      </div>
+      <div class="modal-footer">
+        <div class="row" style="margin-right: 10px">
+          <button (click)="hide()" class="btn btn-danger">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="confirmdelete" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Thông báo</h4>
+        <button class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn xóa tin này khỏi danh sách!
+      </div>
+      <div class="modal-footer">
+        <div class="col-sm-12">
+          <button id="add_lesson" class="col-md-2 btn btn-primary" (click)="confirmDelete()" style="margin-left: 50px" data-dismiss="modal">Có</button>
+          <button class="col-md-2 btn btn-primary" style="margin-left: 150px" data-dismiss="modal">Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

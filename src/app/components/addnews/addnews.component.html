@@ -1,0 +1,416 @@
+<title>Đăng tin mới</title>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="col-sm-12 my-3">
+        <div class="card card-body bg-light" style="background: rgb(230, 227, 227)">
+          <div class="col-xs-12" style="text-align: center;">
+            <strong>
+              <h2>Đăng tin mới</h2>
+            </strong>
+          </div>
+
+          <div class="card bg-light">
+            <div class="card-body">
+              <strong>
+                <h4>Thông tin chi tiết</h4>
+              </strong>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Tiêu đề</b>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" placeholder="Nhập tiêu đề*">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>
+                      <b>Loại nhà ở</b>
+                      <form action="">
+                        <input type="radio" name="type" (change)="onSelectionChange($event)" value="1"> Cho thuê phòng trọ
+                        <br>
+                        <input type="radio" name="type" (change)="onSelectionChange($event)" value="3"> Cho thuê nhà nguyên căn
+                        <br>
+                        <input type="radio" name="type" (change)="onSelectionChange($event)" value="2"> Tìm bạn ở ghép
+                      </form>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>
+                      <b>Số người ở</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <ion-range-slider #sliderElement [min]="0" max="10" from_shadow="true" to_shadow="true" grid="true" grid_num="10" prefix="Số người: "
+                      postfix=" người" decorate_both="false" (onChange)="myOnChange($event)"></ion-range-slider>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Giá</b>
+                    </td>
+                    <td>
+                      <input type="number" placeholder="Nhập giá*" class="form-control">
+                    </td>
+                    <td>VND/Tháng</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Cọc trước</b>
+                    </td>
+                    <td>
+                      <input type="number" placeholder="Cọc trước*" class="form-control">
+                    </td>
+                    <td>VND/Phòng</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Kích thước</b>
+                    </td>
+                    <td>
+                      <input type="number" placeholder="Chiều dài*" class="form-control">
+                    </td>
+                    <td>
+                      <div style="margin-top: 10px;">m</div>
+                    </td>
+                    <td>
+                      <div style="margin-top: 10px;">
+                        <b>X</b>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="number" placeholder="Chiều rộng*" class="form-control">
+                    </td>
+                    <td>
+                      <div style="margin-top: 10px;">m</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Tiền điện</b>
+                    </td>
+                    <td>
+                      <input type="number" placeholder="Tiền điện*" class="form-control">
+                    </td>
+                    <td>
+                      <select class="form-control" (change)="onChange($event.target.value)">
+                        <option selected value="1">VND/Tháng</option>
+                        <option value="2">VND/Kwh</option>
+                        <option value="3">VND/Người</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Tiền nước</b>
+                    </td>
+                    <td>
+                      <input type="number" placeholder="Tiền nước*" class="form-control">
+                    </td>
+                    <td>
+                      <select class="form-control" (change)="onChange($event.target.value)">
+                        <option selected value="1">VND/Tháng</option>
+                        <option value="2">VND/Khối</option>
+                        <option value="3">VND/Người</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Giờ giấc</b>
+                    </td>
+                    <td>
+                      <form action="">
+                        <input type="radio" name="type" (change)="onSelectionChange($event)" value="1"> Tự do
+                        <br>
+                        <input type="radio" name="type" (change)="onSelectionChange($event)" value="2"> Đóng cửa từ
+                        <input type="time" style="border-radius: 50px; border-color: black">
+                      </form>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Giới tính</b>
+                    </td>
+                    <td>
+                      <div class="segmented-control">
+                        <input type="radio" name="gender" id="sc-male" (change)="Gender($event)" value="male">
+                        <label for="sc-male" class="sc-label">Nam</label>
+                        <input type="radio" name="gender" id="sc-female" (change)="Gender($event)" value="female">
+                        <label for="sc-female" class="sc-label">Nữ</label>
+                        <input type="radio" name="gender" id="sc-all" (change)="Gender($event)" value="all">
+                        <label for="sc-all" class="sc-label">Cả 2</label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+          <div class="card bg-light" style="margin-top: 10px;">
+            <div class="card-body">
+              <strong>
+                <h4>Thông tin địa chỉ</h4>
+              </strong>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Tỉnh/Thành phố</b>
+                    </td>
+                    <td>
+                      <select class="form-control" (change)="onChangeCity($event.target.value)">
+                        <option *ngFor="let city of tinhthanh" value="{{city.id}}">{{city.tentp}}</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Quận/Huyện</b>
+                    </td>
+                    <td>
+                      <select class="form-control" (change)="onChangeDistrict($event.target.value)">
+                        <option *ngFor="let dis of district" value="{{dis.id}}">{{dis.tenquanhuyen}}</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Số nhà</b>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" placeholder="Số nhà, đường, phường/xã*">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>
+                      <input [(ngModel)]="keysearch" type="text" (input)="onSearchChange($event.target.value)" class="form-control" placeholder="Nhập vị trí">
+                      <div id="myInputautocomplete-list" class="autocomplete-items">
+                        <div *ngFor="let rs of address" id="{{rs.placeid}}&text={{rs.text}}" (click)="clickSearch($event)">
+                          {{rs.text}}
+                        </div>
+                        <div #gmap (click)="clickMap()" style="width:100%; height:400px; margin-top: 10px;"></div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card bg-light" style="margin-top: 10px;">
+            <div class="card-body">
+              <strong>
+                <h4>Thông tin liên hệ</h4>
+              </strong>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Họ tên</b>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" placeholder="Nhập họ tên*">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Số điện thoại</b>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" placeholder="Nhập số điện thoại*">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Facebook</b>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" placeholder="Nhập link facebook">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="width: 150px;">
+                      <b>Địa chỉ</b>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" placeholder="Nhập địa chỉ">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="col-sm-12 my-2">
+            <div class="card card-body bg-light">
+              <strong>
+                <h4>Tiện ích và nội thất</h4>
+              </strong>
+
+              <div class="row" style="text-align: center; padding: 10px">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!wifi" title="Wifi" (click)="wifi=!wifi" src="assets/images/icons_wi_fi.png" alt="" style="height: 50px; width: 50px;">
+                  <img *ngIf="wifi" title="Wifi" (click)="wifi=!wifi" src="assets/images/icons_wi_fi_active.png" alt="" style="height: 50px; width: 50px;">
+                </div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!gac" title="Gác" (click)="gac=!gac" src="assets/images/icon_gac.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="gac" title="Gác" (click)="gac=!gac" src="assets/images/icon_gac_active.png" alt="" style="height: 50px; width: 50px">
+                </div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!toalet" title="Nhà vệ sinh" (click)="toalet=!toalet" src="assets/images/icon_toilet.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="toalet" title="Nhà vệ sinh" (click)="toalet=!toalet" src="assets/images/icon_toilet_active.png" alt="" style="height: 50px; width: 50px">
+                </div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!phongtam" title="Phòng tắm" (click)="phongtam=!phongtam" src="assets/images/icon_bathroom.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="phongtam" title="Phòng tắm" (click)="phongtam=!phongtam" src="assets/images/icon_bathroom_active.png" alt="" style="height: 50px; width: 50px">
+                </div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!giuong" title="Giường" (click)="giuong=!giuong" src="assets/images/icon_giuong.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="giuong" title="Giường" (click)="giuong=!giuong" src="assets/images/icon_giuong_active.png" alt="" style="height: 50px; width: 50px">
+                </div>
+                <div class="col-sm-1"></div>
+              </div>
+
+              <div class="row" style="text-align: center; padding: 10px">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!tivi" title="Tivi" (click)="tivi=!tivi" src="assets/images/icon_tv.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="tivi" title="Tivi" (click)="tivi=!tivi" src="assets/images/icon_tv_active.png" alt="" style="height: 50px; width: 50px">
+                </div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!tulanh" title="Tủ lạnh" (click)="tulanh=!tulanh" src="assets/images/icon_tulanh.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="tulanh" title="Tủ lạnh" (click)="tulanh=!tulanh" src="assets/images/icon_tulanh_active.png" alt="" style="height: 50px; width: 50px">
+                </div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!bepga" title="Bếp ga" (click)="bepga=!bepga" src="assets/images/icon_bepga.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="bepga" title="Bếp g" (click)="bepga=!bepga" src="assets/images/icon_bepga_active.png" alt="" style="height: 50px; width: 50px">
+                </div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!quat" title="Quạt" (click)="quat=!quat" src="assets/images/icon_quat.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="quat" title="Quạt" (click)="quat=!quat" src="assets/images/icon_quat_active.png" alt="" style="height: 50px; width: 50px">
+                </div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!tudo" title="Tủ đồ" (click)="tudo=!tudo" src="assets/images/icon_tu_quan_ao.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="tudo" title="Tủ đồ" (click)="tudo=!tudo" src="assets/images/icon_tu_quan_ao_active.png" alt="" style="height: 50px; width: 50px">
+                </div>
+                <div class="col-sm-1"></div>
+              </div>
+
+              <div class="row" style="text-align: center; padding: 10px">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!dieuhoa" title="Điều hòa" (click)="dieuhoa=!dieuhoa" src="assets/images/icon_may_lanh.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="dieuhoa" title="Điều hòa" (click)="dieuhoa=!dieuhoa" src="assets/images/icon_may_lanh_active.png" alt="" style="height: 50px; width: 50px">
+                </div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!bongden" title="Đèn" (click)="bongden=!bongden" src="assets/images/icon_bongden.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="bongden" title="Đèn" (click)="bongden=!bongden" src="assets/images/icon_bongden_active.png" alt="" style="height: 50px; width: 50px">
+                </div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!baove" title="Bảo vệ" (click)="baove=!baove" src="assets/images/icon_baove.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="baove" title="Bảo vệ" (click)="baove=!baove" src="assets/images/icon_baove_active.png" alt="" style="height: 50px; width: 50px">
+                </div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!camera" title="Camera" (click)="camera=!camera" src="assets/images/icon_camera.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="camera" title="Camera" (click)="camera=!camera" src="assets/images/icon_camera_active.png" alt="" style="height: 50px; width: 50px">
+                </div>
+                <div class="col-sm-2" style="cursor: pointer;">
+                  <img *ngIf="!doxe" title="Đỗ xe" (click)="doxe=!doxe" src="assets/images/icon_doxe.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="doxe" title="Đỗ xe" (click)="doxe=!doxe" src="assets/images/icon_doxe_active.png" alt="" style="height: 50px; width: 50px">
+                </div>
+                <div class="col-sm-1"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12 my-2">
+            <div class="card card-body bg-light">
+              <strong>
+                <h4>Ảnh về phòng trọ</h4>
+              </strong>
+              <div class="row" style="padding: 10px;">
+              <input style="display: none;" type="file" accept="image/*" (change)="onFileSelect($event.target.files)" multiple #fileInput>              
+                <div class="col-sm-3 upload"  style="cursor: pointer;">
+                  <img (click)="fileInput.click()" src="assets/images/upload.PNG" alt="Tải ảnh lên" title="Chọn ảnh tải lên" class="img-thumbnail" style="height: 100%; width: 100%;">
+                </div>
+                <div class="col-sm-3" *ngFor="let src of listImg">
+                  <div (click)="removeImg()" name="src.id" style="position: absolute; right: 20px; text-decoration:none; color: black; cursor: pointer;">X</div>
+                  <img src="{{src.img}}" alt="Ảnh" class="img-thumbnail" #Image accept="image/*" style="height: 100%; width: 100%;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12" style="text-align: center; margin-bottom: 10px;">
+            <button type="button" id="dangtin" class="btn btn-primary">Đăng tin</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
