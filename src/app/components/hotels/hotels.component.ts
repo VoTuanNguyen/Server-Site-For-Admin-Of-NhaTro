@@ -352,6 +352,7 @@ export class HotelsComponent implements OnInit {
     arr = [];
     temp = [];
     len = this.hotels.length;
+    temp = this.hotels// giá trị khởi tạo
     switch (this.valueSort) {
       case 1:
         temp = this.hotels
@@ -377,6 +378,7 @@ export class HotelsComponent implements OnInit {
     arr = [];
     temp = [];
     len = this.hotels.length;
+    temp = this.hotels// giá trị ban đầu
     switch (this.valueSort) {
       case 1:
         temp = this.hotels
