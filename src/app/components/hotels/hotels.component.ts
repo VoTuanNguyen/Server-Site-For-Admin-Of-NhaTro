@@ -352,7 +352,6 @@ export class HotelsComponent implements OnInit {
     arr = [];
     temp = [];
     len = this.hotels.length;
-    temp = this.hotels// giá trị khởi tạo
     switch (this.valueSort) {
       case 1:
         temp = this.hotels
@@ -362,6 +361,9 @@ export class HotelsComponent implements OnInit {
         break;
       case 3:
         temp = this.hotelsDesc;
+        break;
+      default:
+        temp = this.hotels// giá trị khởi tạo
         break;
     }
     for (var i = 0; i < len; i++) {
@@ -378,7 +380,6 @@ export class HotelsComponent implements OnInit {
     arr = [];
     temp = [];
     len = this.hotels.length;
-    temp = this.hotels// giá trị ban đầu
     switch (this.valueSort) {
       case 1:
         temp = this.hotels
@@ -389,6 +390,9 @@ export class HotelsComponent implements OnInit {
       case 3:
         temp = this.hotelsDesc;
         break;
+      default:
+        temp = this.hotels// giá trị ban đầu
+        break;
     }
     for (var i = 0; i < len; i++) {
       if (temp[i].phong.idquanhuyen == id) {
@@ -397,5 +401,9 @@ export class HotelsComponent implements OnInit {
     }
     this.hotelList = arr;
     this.isEmpty = this.hotelList.length == 0;
+  }
+  p;
+  pageChange(event){
+    window.scrollTo(0, 0);
   }
 }
