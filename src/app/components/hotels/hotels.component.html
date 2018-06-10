@@ -115,11 +115,19 @@
                           </tr>
                           <tr>
                             <td>Tiền nước</td>
-                            <td>{{details.gianuoc}} {{details.deonvinuoc}}</td>
+                            <td>{{details.gianuoc}} {{details.donvinuoc}}</td>
                           </tr>
                           <tr>
                             <td>Giờ giấc</td>
                             <td>{{giogiac}}</td>
+                          </tr>
+                          <tr>
+                            <td>Đối tượng thuê</td>
+                            <td>{{doituong}}</td>
+                          </tr>
+                          <tr>
+                            <td>Số người ở</td>
+                            <td>{{details.songuoimin}}-{{details.songuoimax}} người</td>
                           </tr>
                         </tbody>
                       </table>
@@ -131,25 +139,21 @@
                   <div class="col-sm-12 my-2">
                     <div class="card card-body bg-light">
                       <strong>Thông tin liên hệ</strong>
-                      <table *ngIf="isUser" class="table">
+                      <table *ngIf="isDetail" class="table">
                         <tbody>
                           <tr>
                             <td>Họ tên</td>
-                            <td>{{user.hoten}}</td>
+                            <td>{{details.hoten}}</td>
                           </tr>
                           <tr>
                             <td>Số điện thoại</td>
-                            <td>{{user.sodt}}</td>
+                            <td>{{details.sdt}}</td>
                           </tr>
                           <tr>
                             <td>Facebook</td>
                             <td>
-                              <a href="{{user.facebook}}" target="_blank">Xem</a>
+                              <a href="{{details.facebook}}" target="_blank">Xem</a>
                             </td>
-                          </tr>
-                          <tr>
-                            <td>Địa chỉ</td>
-                            <td>{{user.diachi}}</td>
                           </tr>
                         </tbody>
                       </table>

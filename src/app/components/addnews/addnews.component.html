@@ -22,7 +22,7 @@
                       <b>Tiêu đề</b>
                     </td>
                     <td>
-                      <input type="text" class="form-control" placeholder="Nhập tiêu đề*">
+                      <input [(ngModel)]="title" name="title" type="text" class="form-control" placeholder="Nhập tiêu đề*">
                     </td>
                   </tr>
                 </tbody>
@@ -54,7 +54,7 @@
                   </tr>
                   <tr>
                     <ion-range-slider #sliderElement [min]="0" max="10" from_shadow="true" to_shadow="true" grid="true" grid_num="10" prefix="Số người: "
-                      postfix=" người" decorate_both="false" (onChange)="myOnChange($event)"></ion-range-slider>
+                      postfix=" người" type="double" decorate_both="false" (onChange)="myOnChange($event)"></ion-range-slider>
                   </tr>
                 </tbody>
               </table>
@@ -66,7 +66,7 @@
                       <b>Giá</b>
                     </td>
                     <td>
-                      <input type="number" placeholder="Nhập giá*" class="form-control">
+                      <input [(ngModel)]="hotelPrice" name="hotelPrice" type="number" placeholder="Nhập giá*" class="form-control">
                     </td>
                     <td>VND/Tháng</td>
                   </tr>
@@ -80,7 +80,7 @@
                       <b>Cọc trước</b>
                     </td>
                     <td>
-                      <input type="number" placeholder="Cọc trước*" class="form-control">
+                      <input [(ngModel)]="priorPrice" name="priorPrice" type="number" placeholder="Cọc trước*" class="form-control">
                     </td>
                     <td>VND/Phòng</td>
                   </tr>
@@ -94,7 +94,7 @@
                       <b>Kích thước</b>
                     </td>
                     <td>
-                      <input type="number" placeholder="Chiều dài*" class="form-control">
+                      <input [(ngModel)]="heigthHotel" name="heigthHotel" type="number" placeholder="Chiều dài*" class="form-control">
                     </td>
                     <td>
                       <div style="margin-top: 10px;">m</div>
@@ -105,7 +105,7 @@
                       </div>
                     </td>
                     <td>
-                      <input type="number" placeholder="Chiều rộng*" class="form-control">
+                      <input [(ngModel)]="widthHotel" name="widthHotel" type="number" placeholder="Chiều rộng*" class="form-control">
                     </td>
                     <td>
                       <div style="margin-top: 10px;">m</div>
@@ -121,10 +121,10 @@
                       <b>Tiền điện</b>
                     </td>
                     <td>
-                      <input type="number" placeholder="Tiền điện*" class="form-control">
+                      <input [(ngModel)]="elecPrice" name="elecPrice" type="number" placeholder="Tiền điện*" class="form-control">
                     </td>
                     <td>
-                      <select class="form-control" (change)="onChange($event.target.value)">
+                      <select class="form-control" (change)="onChangeElecUnit($event.target.value)">
                         <option selected value="1">VND/Tháng</option>
                         <option value="2">VND/Kwh</option>
                         <option value="3">VND/Người</option>
@@ -141,10 +141,10 @@
                       <b>Tiền nước</b>
                     </td>
                     <td>
-                      <input type="number" placeholder="Tiền nước*" class="form-control">
+                      <input [(ngModel)]="waterPrice" name="waterPrice" type="number" placeholder="Tiền nước*" class="form-control">
                     </td>
                     <td>
-                      <select class="form-control" (change)="onChange($event.target.value)">
+                      <select class="form-control" (change)="onChangeWaterUnit($event.target.value)">
                         <option selected value="1">VND/Tháng</option>
                         <option value="2">VND/Khối</option>
                         <option value="3">VND/Người</option>
@@ -162,10 +162,10 @@
                     </td>
                     <td>
                       <form action="">
-                        <input type="radio" name="type" (change)="onSelectionChange($event)" value="1"> Tự do
+                        <input type="radio" name="type" (change)="onSelectionChangeTimes($event)" value="1" checked="checked"> Tự do
                         <br>
-                        <input type="radio" name="type" (change)="onSelectionChange($event)" value="2"> Đóng cửa từ
-                        <input type="time" style="border-radius: 50px; border-color: black">
+                        <input type="radio" name="type" (change)="onSelectionChangeTimes($event)" value="2"> Đóng cửa từ
+                        <input [(ngModel)]="hotelTime" name="hotelTime" type="time" style="border-radius: 50px; border-color: black">
                       </form>
                     </td>
                   </tr>
@@ -237,7 +237,7 @@
                       <b>Số nhà</b>
                     </td>
                     <td>
-                      <input type="text" class="form-control" placeholder="Số nhà, đường, phường/xã*">
+                      <input [(ngModel)]="detailAdress" name="detailAdress" type="text" class="form-control" placeholder="Số nhà, đường, phường/xã*">
                     </td>
                   </tr>
                 </tbody>
@@ -246,7 +246,8 @@
                 <tbody>
                   <tr>
                     <td>
-                      <input [(ngModel)]="keysearch" type="text" (input)="onSearchChange($event.target.value)" class="form-control" placeholder="Nhập vị trí">
+                      <input [(ngModel)]="keysearch" name="keysearch" type="text" (input)="onSearchChange($event.target.value)" class="form-control"
+                        placeholder="Nhập vị trí">
                       <div id="myInputautocomplete-list" class="autocomplete-items">
                         <div *ngFor="let rs of address" id="{{rs.placeid}}&text={{rs.text}}" (click)="clickSearch($event)">
                           {{rs.text}}
@@ -272,7 +273,7 @@
                       <b>Họ tên</b>
                     </td>
                     <td>
-                      <input type="text" class="form-control" placeholder="Nhập họ tên*">
+                      <input [(ngModel)]="nameBoss" name="nameBoss" type="text" class="form-control" placeholder="Nhập họ tên*">
                     </td>
                   </tr>
                   <tr>
@@ -280,7 +281,7 @@
                       <b>Số điện thoại</b>
                     </td>
                     <td>
-                      <input type="text" class="form-control" placeholder="Nhập số điện thoại*">
+                      <input [(ngModel)]="phoneBoss" name="phoneBoss" type="text" class="form-control" placeholder="Nhập số điện thoại*">
                     </td>
                   </tr>
                   <tr>
@@ -288,15 +289,7 @@
                       <b>Facebook</b>
                     </td>
                     <td>
-                      <input type="text" class="form-control" placeholder="Nhập link facebook">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 150px;">
-                      <b>Địa chỉ</b>
-                    </td>
-                    <td>
-                      <input type="text" class="form-control" placeholder="Nhập địa chỉ">
+                      <input [(ngModel)]="facebookBoss" name="facebookBoss" type="text" class="form-control" placeholder="Nhập link facebook">
                     </td>
                   </tr>
                 </tbody>
@@ -304,8 +297,8 @@
             </div>
           </div>
 
-          <div class="col-sm-12 my-2">
-            <div class="card card-body bg-light">
+          <div class="card bg-light" style="margin-top: 10px;">
+            <div class="card-body">
               <strong>
                 <h4>Tiện ích và nội thất</h4>
               </strong>
@@ -326,7 +319,8 @@
                 </div>
                 <div class="col-sm-2" style="cursor: pointer;">
                   <img *ngIf="!phongtam" title="Phòng tắm" (click)="phongtam=!phongtam" src="assets/images/icon_bathroom.png" alt="" style="height: 50px; width: 50px">
-                  <img *ngIf="phongtam" title="Phòng tắm" (click)="phongtam=!phongtam" src="assets/images/icon_bathroom_active.png" alt="" style="height: 50px; width: 50px">
+                  <img *ngIf="phongtam" title="Phòng tắm" (click)="phongtam=!phongtam" src="assets/images/icon_bathroom_active.png" alt=""
+                    style="height: 50px; width: 50px">
                 </div>
                 <div class="col-sm-2" style="cursor: pointer;">
                   <img *ngIf="!giuong" title="Giường" (click)="giuong=!giuong" src="assets/images/icon_giuong.png" alt="" style="height: 50px; width: 50px">
@@ -387,35 +381,36 @@
             </div>
           </div>
 
-          <div class="col-sm-12 my-2">
-            <div class="card card-body bg-light">
+          <div class="card bg-light" style="margin-top: 10px;">
+            <div class="card-body">
               <strong>
                 <h4>Mô tả thêm</h4>
               </strong>
-              <textarea placeholder="Nhập mô tả thêm" rows="5" class="form-control"></textarea>
+              <textarea [(ngModel)]="hotelDescribe" name="hotelDescribe" placeholder="Nhập mô tả thêm" rows="5" class="form-control"></textarea>
             </div>
           </div>
 
-          <div class="col-sm-12 my-2">
-            <div class="card card-body bg-light">
+          <div class="card bg-light" style="margin-top: 10px;">
+            <div class="card-body">
               <strong>
                 <h4>Ảnh về phòng trọ</h4>
               </strong>
               <div class="row" style="padding: 10px;">
-              <input style="display: none;" type="file" accept="image/*" (change)="onFileSelect($event.target.files)" multiple #fileInput>              
-                <div class="col-sm-3 upload"  style="cursor: pointer;">
-                  <img (click)="fileInput.click()" src="assets/images/upload.PNG" alt="Tải ảnh lên" title="Chọn ảnh tải lên" class="img-thumbnail" style="height: 100%; width: 100%;">
+                <input style="display: none;" type="file" accept="image/*" (change)="onFileSelect($event.target.files)" multiple #fileInput>
+                <div class="col-sm-3 upload" style="cursor: pointer;">
+                  <img (click)="fileInput.click()" src="assets/images/upload.PNG" alt="Tải ảnh lên" title="Chọn ảnh tải lên" class="img-thumbnail"
+                    style="height: 100%; width: 100%;">
                 </div>
                 <div class="col-sm-3" *ngFor="let src of listImg">
-                  <div (click)="removeImg()" name="src.id" style="position: absolute; right: 20px; text-decoration:none; color: black; cursor: pointer;">X</div>
-                  <img src="{{src.img}}" alt="Ảnh" class="img-thumbnail" #Image accept="image/*" style="height: 100%; width: 100%;">
+                  <div (click)="removeImg($event)" style="position: absolute; right: 20px; text-decoration:none; color: black; cursor: pointer;">X</div>
+                  <img src="{{src.img}}" name="{{src.id}}" alt="Ảnh" class="img-thumbnail" #Image accept="image/*" style="height: 100%; width: 100%;">
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="col-sm-12" style="text-align: center; margin-bottom: 10px;">
-            <button type="button" id="dangtin" class="btn btn-primary">Đăng tin</button>
+          <div class="col-sm-12" style="text-align: center; margin-bottom: 10px; margin-top: 10px;">
+            <button (click)="Submit()" type="button" id="dangtin" class="btn btn-primary">Đăng tin</button>
           </div>
 
         </div>

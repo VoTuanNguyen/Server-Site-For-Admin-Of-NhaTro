@@ -45,8 +45,8 @@ export class HotelsComponent implements OnInit {
   camera = false;
   doxe = false;
   giogiac;
+  doituong;
   tintuc;
-  isUser = false;
   isDetail = false;
 
   tinhthanh;
@@ -152,10 +152,6 @@ export class HotelsComponent implements OnInit {
         break;
     }
   }
-  //modal center vertical
-  clickDetail() {
-    alert('AAAAAAAAAAAAA');
-  }
   public visible = false;
   public visibleAnimate = false;
 
@@ -178,9 +174,10 @@ export class HotelsComponent implements OnInit {
         this.showPosition(lat, lng);
 
         let tiengnhi = this.details.tiennghi;
+        let arr_tmp = tiengnhi.split(',');
         //cập nhật tiện nghi
-        for (let i = 0; i < 15; i++) {
-          this.setTrueFalse(i, tiengnhi[i]);
+        for (let i = 0; i < arr_tmp.length; i++) {
+          this.setTrueFalse(arr_tmp[i]);
         }
         //kiểm tra giờ giấc
         if (this.details.giogiac == '-1') {
@@ -201,13 +198,18 @@ export class HotelsComponent implements OnInit {
             this.tintuc = "Cho thuê nhà nguyên căn";
             break;
         }
-
-        let userid = this.details.iduser;
-        //get id user up dữ liệu phòng
-        this.hotelService.getUserID(userid).subscribe(user => {
-          this.user = user;
-          this.isUser = true;
-        });
+        //đối tượng thuê trọ
+        switch(this.details.doituong){
+          case '1':
+            this.doituong = 'Nam';
+            break;
+          case '2':
+            this.doituong = 'Nữ';
+            break;
+          case '3':
+            this.doituong = 'Cả Nam và Nữ'
+            break;
+        }
 
         // lấy danh sách hình về nhà trọ
         this.hotelService.getImgID(id).subscribe(lstimg => {
@@ -217,52 +219,53 @@ export class HotelsComponent implements OnInit {
       }
     }
   }
-  setTrueFalse(pos, flag) {
-    switch (pos) {
-      case 0:
-        this.wifi = (flag == 1);
+  setTrueFalse(nameComfor) {
+    //wifi,gac,toilet,phongtam,giuong,tv,tulanh,bepga,quat,tudo,maylanh,den,baove,camera,khudexe
+    switch (nameComfor) {
+      case 'wifi':
+        this.wifi = true;
         break;
-      case 1:
-        this.gac = (flag == 1);
+      case 'gac':
+        this.gac = true;
         break;
-      case 2:
-        this.toalet = (flag == 1);
+      case 'toilet':
+        this.toalet = true;
         break;
-      case 3:
-        this.phongtam = (flag == 1)
+      case 'phongtam':
+        this.phongtam = true;
         break;
-      case 4:
-        this.giuong = (flag == 1);
+      case 'giuong':
+        this.giuong = true;
         break;
-      case 5:
-        this.tivi = (flag == 1);
+      case 'tv':
+        this.tivi = true;
         break;
-      case 6:
-        this.tulanh = (flag == 1);
+      case 'tulanh':
+        this.tulanh = true;
         break;
-      case 7:
-        this.bepga = (flag == 1);
+      case 'bepga':
+        this.bepga = true;
         break;
-      case 8:
-        this.quat = (flag == 1);
+      case 'quat':
+        this.quat = true;
         break;
-      case 9:
-        this.tudo = (flag == 1);
+      case 'tudo':
+        this.tudo = true;
         break;
-      case 10:
-        this.dieuhoa = (flag == 1);
+      case 'maylanh':
+        this.dieuhoa = true;
         break;
-      case 11:
-        this.bongden = (flag == 1);
+      case 'den':
+        this.bongden = true;
         break;
-      case 12:
-        this.baove = (flag == 1);
+      case 'baove':
+        this.baove = true;
         break;
-      case 13:
-        this.camera = (flag == 1);
+      case 'camera':
+        this.camera = true;
         break;
-      case 14:
-        this.doxe = (flag == 1);
+      case 'khudexe':
+        this.doxe = true;
         break;
     }
   }
@@ -301,7 +304,7 @@ export class HotelsComponent implements OnInit {
     this.hotelService.deleteID(this.idphong).subscribe(mess => {
       if (mess == 'Success') {
         for (var i = 0; i < this.hotelList.length; i++) {
-          if (this.hotelList[i].id == this.idphong) {//loại phòng vừa xóa ra khỏi danh sách
+          if (this.hotelList[i].phong.id == this.idphong) {//loại phòng vừa xóa ra khỏi danh sách
             this.hotelList.splice(i, 1);
           }
         }
@@ -402,7 +405,6 @@ export class HotelsComponent implements OnInit {
     this.hotelList = arr;
     this.isEmpty = this.hotelList.length == 0;
   }
-  p;
   pageChange(event){
     window.scrollTo(0, 0);
   }
