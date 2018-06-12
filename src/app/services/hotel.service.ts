@@ -21,22 +21,22 @@ export class HotelService {
     this.httpClient = httpClient;
   }
   //lấy danh sách hotel
-  //host = 'http://luciferwilling.ddns.net';
-  host = 'http://localhost';
+  //host = 'http://luciferwilling.ddns.net/appnhatro/';
+  host = 'https://nhatroservice.000webhostapp.com/';
   getAllHotels() {
-    let URL = this.host + "/appnhatro/getAllPhong.php";
+    let URL = this.host + "getAllPhong.php";
     return this.http.get(URL).map(res => res.json());
   }
   getUserID(id) {
-    let URL =  this.host + "/appnhatro/getuserid.php?id=" + id;
+    let URL =  this.host + "getuserid.php?id=" + id;
     return this.http.get(URL).map(res => res.json());
   }
   getImgID(id) {
-    let URL = this.host + "/appnhatro/getImgID.php?id=" + id;
+    let URL = this.host + "getImgID.php?id=" + id;
     return this.http.get(URL).map(res => res.json());
   }
   deleteID(id) {
-    let URL = this.host + "/appnhatro/deleteID.php?id=" + id;
+    let URL = this.host + "deleteID.php?id=" + id;
     return this.http.get(URL).map(res => res.text());
   }
   getCity(): Observable<ObjectJson> {
@@ -46,7 +46,7 @@ export class HotelService {
     return this.httpClient.get('./assets/json/quanhuyen.json');
   }
   getDescHotels() {
-    let URL = this.host + "/appnhatro/getAcsPhong.php";
+    let URL = this.host + "getAcsPhong.php";
     return this.http.get(URL).map(res => res.json());
   }
   getLocation(key) {
@@ -69,7 +69,7 @@ export class HotelService {
     .map(res => res.json());
   }
   addNews(data){
-    let URL = this.host + "/appnhatro/addNews.php";
+    let URL = this.host + "addNews.php";
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
     let options = new RequestOptions({
@@ -78,7 +78,7 @@ export class HotelService {
     return this.http.post(URL, JSON.stringify({ data: data }), options).map(res => res.text());
   }
   uploadImgNews(id, arr){
-    let URL = this.host + "/appnhatro/uploadImage.php";
+    let URL = this.host + "uploadImage.php";
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
     let options = new RequestOptions({
