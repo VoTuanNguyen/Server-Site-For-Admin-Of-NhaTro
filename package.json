@@ -22,7 +22,7 @@
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
-    "@ng-bootstrap/ng-bootstrap": "^2.0.0",
+    "@ng-bootstrap/ng-bootstrap": "2.0.0",
     "@types/googlemaps": "^3.30.8",
     "angular-image-slider": "0.0.8",
     "angular4-carousel": "^3.1.8",

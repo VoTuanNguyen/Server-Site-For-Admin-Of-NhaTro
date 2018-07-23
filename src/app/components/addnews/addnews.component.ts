@@ -17,6 +17,7 @@ export class AddnewsComponent implements OnInit {
   marker: google.maps.Marker;
   file: File = null;
   listImg = [];
+  listfileImg = [];
   dem = 0;
   tinhthanh;
   quanhuyen;
@@ -89,23 +90,36 @@ export class AddnewsComponent implements OnInit {
   }
   onFileSelect(event: FileList) {
     let arr = this.listImg.length > 0 ? this.listImg : [];
+    let arrfile = this.listfileImg.length > 0 ? this.listfileImg: [];
     let len = event.length;
     for (var i = 0; i < len; i++) {
       this.file = event.item(i);
-      var reader = new FileReader();
-      reader.onload = (ev: any) => {
-        //console.log(ev.target.result);
-        let temp = {
+      if (this.file.size / (1024 * 1024) < 1) {
+        let tmpfile = {
           id: '',
-          img: ''
+          file:File = null
         };
-        temp.id = this.dem.toString();
-        temp.img = ev.target.result;
-        arr.push(temp);
-        this.dem++;
+        tmpfile.id = this.dem.toString();
+        tmpfile.file = event.item(i);
+        arrfile.push(tmpfile);
+
+        var reader = new FileReader();
+        reader.onload = (ev: any) => {
+          let temp = {
+            id: '',
+            img: ''
+          };
+          temp.id = this.dem.toString();
+          temp.img = ev.target.result;
+          arr.push(temp);
+          this.dem++;
+        }
+        reader.readAsDataURL(this.file);
+      } else {
+        alert('Vui lòng chọn những file ảnh có dung lượng nhỏ hơn 1MB!');
       }
-      reader.readAsDataURL(this.file);
     }
+    this.listfileImg = arrfile;
     this.listImg = arr;
   }
   onSelectionChange(event) {
@@ -211,6 +225,7 @@ export class AddnewsComponent implements OnInit {
     for(var i=0; i<this.listImg.length; i++){
       if(this.listImg[i].id == id){
        this.listImg.splice(i, 1);
+       this.listfileImg.splice(i, 1);
       }
     }
   }
@@ -506,25 +521,25 @@ export class AddnewsComponent implements OnInit {
     //B2: Tiến hành lưu ảnh lên host đồng thời lưu địa chỉ ảnh vào csdl theo id(khi tin đã lưu thành công)
     //B3: Thông báo lưu thành công
 
-    //Lọc lấy mảng chứa ảnh
-    var arr = [];
-    for(var i=0; i<this.listImg.length; i++){
-      arr.push(this.listImg[i].img.split('data:image/png;base64,')[1]);
-    }
-
     this.hotelService.addNews(data).subscribe(res =>{
       if(res === 'success'){
         // tiến hành up ảnh lên host và lưu vào csdl
-        this.hotelService.uploadImgNews(id, arr).subscribe(rs => {
-          if(rs === 'ok'){
-            alert('Đăng tin thành công!');
-            window.location.reload();// reload lại page để đăng tin khác
-          }else{
-            //xóa tin về vì quá trình up ảnh có lỗi
-            this.hotelService.deleteID(id).subscribe(respone => console.log('KOKOKO!'));
-            alert('Đăng tin không thành công!');
-          }
-        })
+        for(var i=0; i<this.listfileImg.length; i++){
+          const fd = new FormData();
+          const namefile = this.listfileImg[i].file.name.split('.')[0] + id + "." +this.listfileImg[i].file.name.split('.')[1];
+          fd.append('uploaded_file', this.listfileImg[i].file, namefile);
+          this.hotelService.uploadImgNews(fd).subscribe(rs => {
+            if(rs === 'fail'){
+              alert('Đăng tin gặp một số trục trặc!\nVui lòng thử lại!');
+              //xóa tin để người dùng đăng lại do vấn đề trục trặc khi đăng ảnh
+              this.hotelService.deleteID(id).subscribe(respone => console.log('KOKOKO!'));
+            }else{
+              // lưu link ảnh vào csdl
+              this.hotelService.uploadURLImg(id, namefile).subscribe(rs => console.log(rs));
+            }
+          });
+        }
+        alert('Đăng tin thành công!');
       }else{
         alert('Thêm tin thất bại!');
       }

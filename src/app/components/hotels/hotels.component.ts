@@ -54,7 +54,8 @@ export class HotelsComponent implements OnInit {
   district;
   isChooseCity = false;
   idCity = -1;
-  isEmpty = true;
+  isEmpty = false;
+  isLoading = true;
   idDistrict = -1;
   valueSort = -1;// -1 là mặc định
 
@@ -72,6 +73,7 @@ export class HotelsComponent implements OnInit {
       this.hotelList = hotelList;
       this.isEmpty = this.hotelList.length == 0;// xác nhận là có hay là không có dữ liệu
       this.hotels = hotelList;// để lưu lại thông tin toàn bộ khách sạn
+      this.isLoading = false;
     });
     // lấy danh sách phòng có giá giảm dần, tăng dần
     this.hotelService.getDescHotels().subscribe(data => {

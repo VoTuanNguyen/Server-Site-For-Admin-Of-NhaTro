@@ -70,20 +70,23 @@ export class HotelService {
   }
   addNews(data){
     let URL = this.host + "addNews.php";
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    let options = new RequestOptions({
-      headers: headers
-    });
-    return this.http.post(URL, JSON.stringify({ data: data }), options).map(res => res.text());
+    console.log(JSON.stringify({ data: data }));
+    return this.http.post(URL, JSON.stringify({ data: data })).map(res => res.text());
   }
-  uploadImgNews(id, arr){
+  uploadImgNews(fd){
     let URL = this.host + "uploadImage.php";
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    let options = new RequestOptions({
-      headers: headers
-    });
-    return this.http.post(URL, JSON.stringify({ id: id, arr: arr}), options).map(res => res.text());
+    return this.http.post(URL, fd).map(res => res.text());
+  }
+  uploadImgNewsURL(id, link){
+    let URL = this.host + "uploadImage.php?id="+id+"&link="+link;
+    return this.http.get(URL).map(res => res.text());
+  }
+  uploadImgNews(fd) {
+    let URL = this.host + "upload_image.php";
+    return this.http.post(URL, fd).map(res => res.text());
+  }
+  uploadURLImg(id, link) {
+    let URL = this.host + "upload_image_url.php?link=" + link + "&id=" + id;
+    return this.http.get(URL).map(res => res.text());
   }
 }
